@@ -1,0 +1,21 @@
+<% clusters.each do |cluster| -%>
+resource "google_container_cluster" "<%= resource_name_of(cluster) %>" {
+  project = "<%= project %>"
+  name = "<%= cluster.name %>"
+  initial_node_count = <%= cluster.initial_node_count %>
+
+  zone = "<%= cluster.zone %>"
+
+  additional_zones = [
+<%- (cluster.locations - [cluster.zone]).sort.each do |additional_zone| -%>
+    "<%= additional_zone %>",
+<%- end -%>
+  ]
+
+  cluster_ipv4_cidr = "<%= cluster.cluster_ipv4_cidr %>"
+
+  enable_legacy_abac = <%= cluster.legacy_abac.enabled %>
+
+  remove_default_node_pool = true
+}
+<% end -%>
