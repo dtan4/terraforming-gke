@@ -1,26 +1,40 @@
-# Terraforming::Gke
+# terraforming-gke
 
 Gemerate Terraform HCL files from existng GKE resources
+
+## Prerequisites
+
+- You have been already logged on to GCP on your machine
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-```ruby
-gem 'terraforming-gke'
+```bash
+git clone
+cd terraforming-gke
+bundle install -j4 --without test development
+bundle exec exe/terraforming-gke
 ```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install terraforming-gke
 
 ## Usage
 
-TODO: Write usage instructions here
+### GKE cluster ([`google_container_cluster`](https://www.terraform.io/docs/providers/google/r/container_cluster.html))
+
+```bash
+bundle exec exe/terraforming-gke cluster \
+  --project <project> \
+  --zone <zone>
+```
+
+### GKE node pool ([`google_container_node_pool`](https://www.terraform.io/docs/providers/google/r/container_node_pool.html))
+
+```bash
+bundle exec exe/terraforming-gke node_pool \
+  --project <project> \
+  --zone <zone> \
+  --cluster <cluster>
+```
 
 ## Development
 
