@@ -21,6 +21,8 @@ resource "google_container_node_pool" "<%= resource_name_of(cluster, node_pool) 
     # Ref: https://cloud.google.com/compute/docs/machine-types
     machine_type = "<%= node_pool.config.machine_type %>"
 
+    min_cpu_platform = "<%= node_pool.config.min_cpu_platform %>"
+
     # Ref: https://developers.google.com/identity/protocols/googlescopes
     oauth_scopes = [
 <%- node_pool.config.oauth_scopes.sort.each do |oauth_scope| -%>
@@ -28,9 +30,22 @@ resource "google_container_node_pool" "<%= resource_name_of(cluster, node_pool) 
 <%- end -%>
     ]
 
-    labels = {
+<%- node_pool.config.accelerators.each do |accelerator| -%>
+    guest_accelerator {
+      type = "<%= accelerator.type %>"
+      count = <%= accelerator.count %>
+    }
+<%- end -%>
+
+    metadata {
+<%- node_pool.config.metadata.each do |k, v| -%>
+      "<%= k %>" = "<%= v %>",
+<%- end -%>
+    }
+
+    labels {
 <%- node_pool.config.labels.each do |k, v| -%>
-      "<%= k %>" => "<%= v %>",
+      "<%= k %>" = "<%= v %>",
 <%- end -%>
     }
 
