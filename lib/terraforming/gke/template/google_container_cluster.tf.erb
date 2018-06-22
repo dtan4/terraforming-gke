@@ -65,10 +65,12 @@ resource "google_container_cluster" "<%= resource_name_of(cluster) %>" {
   }
 <%- end -%>
 
+<%- if cluster.network_policy -%>
   network_policy {
     provider = "<%= cluster.network_policy.provider %>"
     enabled = <%= cluster.network_policy.enabled %>
   }
+<%- end -%>
 
   cluster_ipv4_cidr = "<%= cluster.cluster_ipv4_cidr %>"
   subnetwork = "<%= cluster.subnetwork %>"
