@@ -1,6 +1,6 @@
 # terraforming-gke
 
-Gemerate Terraform HCL files from existng GKE resources
+Generate Terraform HCL files from existng GKE resources
 
 ## Prerequisites
 
