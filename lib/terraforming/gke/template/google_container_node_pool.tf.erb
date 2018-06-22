@@ -1,0 +1,42 @@
+<% node_pools.each do |node_pool| -%>
+resource "google_container_node_pool" "<%= resource_name_of(cluster, node_pool) %>" {
+  project = "<%= project %>"
+  name = "<%= node_pool.name %>"
+  cluster = "<%= cluster %>"
+  version = "<%= node_pool.version %>"
+
+  initial_node_count = <%= node_pool.initial_node_count %>
+
+  zone = "<%= zone %>"
+
+  node_config {
+    image_type = "<%= node_pool.config.image_type %>"
+    disk_size_gb = "<%= node_pool.config.disk_size_gb %>"
+    local_ssd_count = <%= node_pool.config.local_ssd_count %>
+
+    preemptible = <%= node_pool.config.preemptible %>
+
+    # Ref: https://cloud.google.com/compute/docs/machine-types
+    machine_type = "<%= node_pool.config.machine_type %>"
+
+    # Ref: https://developers.google.com/identity/protocols/googlescopes
+    oauth_scopes = [
+<%- node_pool.config.oauth_scopes.sort.each do |oauth_scope| -%>
+      "<%= oauth_scope %>",
+<%- end -%>
+    ]
+  }
+
+<%- if node_pool.autoscaling.enabled -%>
+  autoscaling {
+    min_node_count = <%= node_pool.autoscaling.min_node_count %>
+    max_node_count = <%= node_pool.autoscaling.max_node_count %>
+  }
+<%- end -%>
+
+  management {
+    auto_repair  = <%= node_pool.management.auto_repair %>
+    auto_upgrade = <%= node_pool.management.auto_upgrade %>
+  }
+}
+<% end -%>
