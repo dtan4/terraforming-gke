@@ -28,7 +28,7 @@ resource "google_container_node_pool" "<%= resource_name_of(cluster, node_pool) 
 <%- end -%>
     ]
 
-    lables = {
+    labels = {
 <%- node_pool.config.labels.each do |k, v| -%>
       "<%= k %>" => "<%= v %>",
 <%- end -%>
