@@ -13,9 +13,65 @@ resource "google_container_cluster" "<%= resource_name_of(cluster) %>" {
 <%- end -%>
   ]
 
-  ip_allocation_policy {}
+  addons_config {
+<%- if cluster.addons_config.http_load_balancing -%>
+    http_load_balancing {
+      disabled = <%= cluster.addons_config.http_load_balancing.disabled %>
+    }
+<%- end -%>
+
+<%- if cluster.addons_config.horizontal_pod_autoscaling -%>
+    horizontal_pod_autoscaling {
+      disabled = <%= cluster.addons_config.horizontal_pod_autoscaling.disabled %>
+    }
+<%- end -%>
+
+<%- if cluster.addons_config.kubernetes_dashboard -%>
+    kubernetes_dashboard {
+      disabled = <%= cluster.addons_config.kubernetes_dashboard.disabled %>
+    }
+<%- end -%>
+
+<%- if cluster.addons_config.network_policy_config -%>
+    network_policy_config {
+      disabled = <%= cluster.addons_config.network_policy_config.disabled %>
+    }
+<%- end -%>
+  }
+
+<%- if cluster.ip_allocation_policy -%>
+  ip_allocation_policy {
+    cluster_secondary_range_name = "<%= cluster.ip_allocation_policy.cluster_secondary_range_name %>"
+    services_secondary_range_name = "<%= cluster.ip_allocation_policy.services_secondary_range_name %>"
+  }
+<%- end -%>
+
+<%- if cluster.maintenance_policy -%>
+  maintenancy_policy {
+    daily_maintenance_window {
+      start_time = "<%= cluster.maintenance_policy.window.daily_maintenance_window.start_time %>"
+    }
+  }
+<%- end -%>
+
+<%- if cluster.master_authorized_networks_config && cluster.master_authorized_networks_config.enabled -%>
+  master_authorized_networks_config {
+<%- cluster.master_authorized_networks_config.cidr_blocks.each do |cidr_block| -%>
+    cidr_blocks {
+      cidr_block = "<%= cidr_block.cidr_block %>"
+      display_name = "<%= cidr_block.display_name %>"
+    }
+<%- end -%>
+  }
+<%- end -%>
+
+  network_policy {
+    provider = "<%= cluster.network_policy.provider %>"
+    enabled = <%= cluster.network_policy.enabled %>
+  }
 
   cluster_ipv4_cidr = "<%= cluster.cluster_ipv4_cidr %>"
+  subnetwork = "<%= cluster.subnetwork %>"
 
   logging_service = "<%= cluster.logging_service %>"
   monitoring_service = "<%= cluster.monitoring_service %>"
