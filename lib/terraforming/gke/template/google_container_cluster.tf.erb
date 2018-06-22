@@ -3,6 +3,7 @@ resource "google_container_cluster" "<%= resource_name_of(cluster) %>" {
   project = "<%= project %>"
   name = "<%= cluster.name %>"
   initial_node_count = <%= cluster.initial_node_count %>
+  description = "<%= cluster.description %>"
 
   zone = "<%= cluster.zone %>"
 
@@ -14,6 +15,10 @@ resource "google_container_cluster" "<%= resource_name_of(cluster) %>" {
 
   cluster_ipv4_cidr = "<%= cluster.cluster_ipv4_cidr %>"
 
+  logging_service = "<%= cluster.logging_service %>"
+  monitoring_service = "<%= cluster.monitoring_service %>"
+
+  enable_kubernetes_alpha = <%= cluster.enable_kubernetes_alpha %>
   enable_legacy_abac = <%= cluster.legacy_abac.enabled %>
 
   remove_default_node_pool = true
