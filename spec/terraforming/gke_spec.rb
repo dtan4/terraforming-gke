@@ -1,6 +1,6 @@
-RSpec.describe Terraforming::Gke do
+RSpec.describe Terraforming::GKE do
   it "has a version number" do
-    expect(Terraforming::Gke::VERSION).not_to be nil
+    expect(Terraforming::GKE::VERSION).not_to be nil
   end
 
   it "does something useful" do

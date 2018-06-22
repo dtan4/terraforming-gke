@@ -5,7 +5,7 @@ require "terraforming/gke/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "terraforming-gke"
-  spec.version       = Terraforming::Gke::VERSION
+  spec.version       = Terraforming::GKE::VERSION
   spec.authors       = ["Daisuke Fujita"]
   spec.email         = ["dtanshi45@gmail.com"]
 

@@ -1,7 +1,7 @@
 require "terraforming/gke/version"
 
 module Terraforming
-  module Gke
+  module GKE
     # Your code goes here...
   end
 end
