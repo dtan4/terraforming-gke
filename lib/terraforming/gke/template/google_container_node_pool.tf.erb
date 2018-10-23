@@ -56,7 +56,7 @@ resource "google_container_node_pool" "<%= resource_name_of(cluster, node_pool) 
     ]
   }
 
-<%- if node_pool.autoscaling.enabled -%>
+<%- if node_pool.autoscaling && node_pool.autoscaling.enabled -%>
   autoscaling {
     min_node_count = <%= node_pool.autoscaling.min_node_count %>
     max_node_count = <%= node_pool.autoscaling.max_node_count %>
